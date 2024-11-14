@@ -21,4 +21,29 @@ class Person extends Model
         return $this->hasMany(Assignment::class);
     }
 
+    public function getRoomIdInStep($step)
+    {
+        $assignment = $this->assignments()
+            ->where('step', $step)
+            ->first();
+
+        if ($assignment->room) {
+            return $assignment->room->id;
+        }
+
+        return null;
+    }
+
+    public function getCoffeeIdInStep($step)
+    {
+        $assignment = $this->assignments()
+            ->where('step', $step)
+            ->first();
+
+        if ($assignment->coffeeSpace) {
+            return $assignment->coffeeSpace->id;
+        }
+
+        return null;
+    }
 }

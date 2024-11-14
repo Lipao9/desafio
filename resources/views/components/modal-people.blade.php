@@ -31,21 +31,12 @@
                                 <select class="form-select" name="roomStep1" aria-label="Default select example">
                                     <option value="">Selecione uma Sala</option>
                                     @foreach($rooms as $room)
-                                        @php
-                                            $personRoom = false;
-                                            if (isset($person)){
-                                                $getRoomSpaceStep1 = $person->assignments()
-                                                    ->where('step', 'Etapa 1')
-                                                    ->where('person_id', $person->id)
-                                                    ->where('room_id', $room->id)
-                                                    ->first();
-
-                                                if ($getRoomSpaceStep1 && $getRoomSpaceStep1->room->id === $room->id){
-                                                    $personRoom = true;
-                                                }
-                                            }
-                                        @endphp
-                                        <option @if($personRoom === true) selected @endif value="{{ $room->id }}">{{ $room->name }}</option>
+                                        <option
+                                            @if(isset($person) && $person->getRoomIdInStep('Etapa 1') === $room->id)
+                                                selected
+                                            @endif
+                                            value="{{ $room->id }}">{{ $room->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                                 </div>
@@ -54,21 +45,12 @@
                                     <select class="form-select" name="roomStep2" aria-label="Default select example">
                                         <option value="">Selecione uma Sala</option>
                                         @foreach($rooms as $room)
-                                            @php
-                                                $personRoom = false;
-                                                if (isset($person)){
-                                                    $getRoomSpaceStep2 = $person->assignments()
-                                                        ->where('step', 'Etapa 2')
-                                                        ->where('person_id', $person->id)
-                                                        ->where('room_id', $room->id)
-                                                        ->first();
-
-                                                    if ($getRoomSpaceStep2 && $getRoomSpaceStep2->room->id === $room->id ){
-                                                        $personRoom = true;
-                                                    }
-                                                }
-                                            @endphp
-                                            <option @if($personRoom === true) selected @endif value="{{ $room->id }}">{{ $room->name }}</option>
+                                            <option
+                                                @if(isset($person) && $person->getRoomIdInStep('Etapa 2') === $room->id)
+                                                    selected
+                                                @endif
+                                                value="{{ $room->id }}">{{ $room->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -82,21 +64,12 @@
                                     <select class="form-select" name="coffeeStep1" aria-label="Default select example">
                                         <option value="">Selecione uma Sala</option>
                                         @foreach($coffeeSpaces as $coffeeSpace)
-                                            @php
-                                                $personCoffeeSpace = false;
-                                                if (isset($person)){
-                                                    $getRoomSpaceStep1 = $person->assignments()
-                                                        ->where('step', 'Etapa 1')
-                                                        ->where('person_id', $person->id)
-                                                        ->where('coffee_space_id', $coffeeSpace->id)
-                                                        ->first();
-
-                                                    if ($getRoomSpaceStep1 && $getRoomSpaceStep1->coffeeSpace->id === $coffeeSpace->id ){
-                                                        $personCoffeeSpace = true;
-                                                    }
-                                                }
-                                            @endphp
-                                            <option @if($personCoffeeSpace === true) selected @endif value="{{ $coffeeSpace->id }}">{{ $coffeeSpace->name }}</option>
+                                            <option
+                                                @if(isset($person) && $person->getCoffeeIdInStep('Etapa 1') === $coffeeSpace->id)
+                                                    selected
+                                                @endif
+                                                value="{{ $coffeeSpace->id }}">{{ $coffeeSpace->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -105,21 +78,12 @@
                                     <select class="form-select" name="coffeeStep2" aria-label="Default select example">
                                         <option value="">Selecione uma Sala</option>
                                         @foreach($coffeeSpaces as $coffeeSpace)
-                                            @php
-                                                $personCoffeeSpace = false;
-                                                if (isset($person)){
-                                                    $getRoomSpaceStep2 = $person->assignments()
-                                                        ->where('step', 'Etapa 2')
-                                                        ->where('person_id', $person->id)
-                                                        ->where('coffee_space_id', $coffeeSpace->id)
-                                                        ->first();
-
-                                                    if ($getRoomSpaceStep2 && $getRoomSpaceStep2->coffeeSpace->id === $coffeeSpace->id ){
-                                                        $personCoffeeSpace = true;
-                                                    }
-                                                }
-                                            @endphp
-                                            <option @if($personCoffeeSpace === true) selected @endif value="{{ $coffeeSpace->id }}">{{ $coffeeSpace->name }}</option>
+                                            <option
+                                                @if(isset($person) && $person->getCoffeeIdInStep('Etapa 2') === $coffeeSpace->id)
+                                                    selected
+                                                @endif
+                                                value="{{ $coffeeSpace->id }}">{{ $coffeeSpace->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
