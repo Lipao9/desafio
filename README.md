@@ -20,7 +20,7 @@ Clone o repositório para sua máquina local:
     git clone https://github.com/seu-usuario/seu-repositorio.git
     cd seu-repositorio
 
-2. Configuração do Arquivo .env
+Configuração do Arquivo .env
 Copie o arquivo .env.example para um novo arquivo .env:
 
     cp .env.example .env
@@ -43,12 +43,12 @@ Para rodar com Docker, modifique para o seguinte:
     DB_CONNECTION=mysql
     DB_HOST=db
 
-3. Instalar Dependências
+Instalar Dependências
 Agora, instale as dependências do projeto:
 
     composer install
 
-4. Gerar a Chave de Aplicação
+Gerar a Chave de Aplicação
 Em seguida, gere a chave de aplicação do Laravel:
 
     php artisan key:generate
@@ -62,32 +62,32 @@ Como Rodar a Aplicação
 Com Docker
 Se você optar por rodar a aplicação em um ambiente Docker, siga os passos abaixo:
 
-1. Subir o Docker: Para iniciar a aplicação e os contêineres:
+Subir o Docker: Para iniciar a aplicação e os contêineres:
 
-   docker compose up
+    docker compose up
 
-2. Executar as Migrações: Execute as migrações do banco de dados dentro do contêiner:
+Executar as Migrações: Execute as migrações do banco de dados dentro do contêiner:
 
     docker compose exec app php artisan migrate
 
-3. Popular o Banco de Dados (Opcional): Caso deseje popular o banco com dados iniciais, execute o comando:
+Popular o Banco de Dados (Opcional): Caso deseje popular o banco com dados iniciais, execute o comando:
 
-   docker compose exec app php artisan db:seed
+    docker compose exec app php artisan db:seed
 
 Localmente
 Se preferir rodar a aplicação diretamente no seu ambiente local, siga os passos abaixo:
 
-1. Executar as Migrações: Rodar as migrações do banco de dados:
+Executar as Migrações: Rodar as migrações do banco de dados:
 
     php artisan migrate
 
-2. Popular o Banco de Dados (Opcional): Caso deseje rodar o seeder para popular o banco, use o comando:
+Popular o Banco de Dados (Opcional): Caso deseje rodar o seeder para popular o banco, use o comando:
 
-   php artisan db:seed
+    php artisan db:seed
 
-3. Rodar a Aplicação Localmente: Para rodar a aplicação localmente, use o servidor embutido do Laravel:
+Rodar a Aplicação Localmente: Para rodar a aplicação localmente, use o servidor embutido do Laravel:
 
-   php artisan serve
+    php artisan serve
 
    
 
