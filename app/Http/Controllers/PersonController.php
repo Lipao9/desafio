@@ -7,7 +7,7 @@ use App\Models\Person;
 use App\Models\Room;
 use Illuminate\Http\Request;
 
-class PersonController extends Controller
+class PersonController
 {
     public function __construct(
         private RoomController $roomController,
@@ -98,7 +98,7 @@ class PersonController extends Controller
         }
     }
 
-    private function checkRoomCapacity($room, $step)
+    public function checkRoomCapacity($room, $step)
     {
         if ($room) {
             $response = $this->roomController->verifyCapacity($room, $step);
@@ -109,7 +109,7 @@ class PersonController extends Controller
         return false;
     }
 
-    private function checkCoffeeSpaceCapacity($coffeeSpace, $step)
+    public function checkCoffeeSpaceCapacity($coffeeSpace, $step)
     {
         if ($coffeeSpace) {
             $response = $this->coffeeSpaceController->verifyCapacity($coffeeSpace, $step);

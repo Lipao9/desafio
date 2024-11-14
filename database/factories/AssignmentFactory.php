@@ -18,10 +18,10 @@ class AssignmentFactory extends Factory
     public function definition()
     {
         return [
-            'person_id' => Person::factory(), // Atribuindo uma pessoa gerada pela factory
-            'room_id' => Room::factory(), // Atribuindo uma sala gerada pela factory
-            'coffee_space_id' => CoffeeSpace::factory(), // Atribuindo um espaço de café gerado pela factory
-            'step' => $this->faker->randomElement(['Etapa 1', 'Etapa 2']), // Aleatoriamente "Etapa 1" ou "Etapa 2"
+            'person_id' => Person::factory(),
+            'room_id' => Room::factory(),
+            'coffee_space_id' => CoffeeSpace::factory(),
+            'step' => $this->faker->randomElement(['Etapa 1', 'Etapa 2']),
         ];
     }
 }

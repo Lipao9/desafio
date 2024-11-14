@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Assignment;
 
-class AssignmentController extends Controller
+class AssignmentController
 {
     public function assign($personId, $roomId = null, $coffeeId = null, $step): void
     {

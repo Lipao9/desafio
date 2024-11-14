@@ -20,4 +20,5 @@ class Person extends Model
     {
         return $this->hasMany(Assignment::class);
     }
+
 }

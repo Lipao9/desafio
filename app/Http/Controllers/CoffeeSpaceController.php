@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CoffeeSpace;
 use Illuminate\Http\Request;
 
-class CoffeeSpaceController extends Controller
+class CoffeeSpaceController
 {
     public function __construct(private AssignmentController $assignmentController)
     {

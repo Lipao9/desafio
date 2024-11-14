@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AssignmentController;
 use App\Models\Room;
 use Illuminate\Http\Request;
 
-class RoomAPIController extends Controller
+class RoomAPIController
 {
+    public function __construct(
+        private AssignmentController $assignmentController
+    ){
+    }
+
     public function index()
     {
         $rooms = Room::all();
@@ -23,7 +28,7 @@ class RoomAPIController extends Controller
 
         $room = Room::create($validatedData);
 
-        return response()->json($room, 201); // 201 Created
+        return response()->json($room, 201);
     }
 
     public function show($id)
@@ -37,9 +42,13 @@ class RoomAPIController extends Controller
         $room = Room::findOrFail($id);
 
         $validatedData = $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'capacity' => 'sometimes|integer',
+            'name' => 'string',
+            'capacity' => 'integer',
         ]);
+
+        if($this->assignmentController->verifyRoomCapacityUpdateEachStep($id, $request->capacity)) {
+            return response()->json(['message' => 'Capacidade não disponivel por conta dos participantes'], 422);
+        }
 
         $room->update($validatedData);
 
@@ -49,23 +58,23 @@ class RoomAPIController extends Controller
     public function destroy($id)
     {
         $room = Room::findOrFail($id);
+
+        $this->assignmentController->unSetPlace($id, 'room_id');
+
         $room->delete();
 
-        return response()->json(null, 204); // 204 No Content
+        return response()->json(null, 204);
     }
 
     public function getPeopleInRoom($id)
     {
-        // Encontrar a sala
         $room = Room::findOrFail($id);
 
-        // Recuperar as pessoas associadas à sala nas duas etapas
         $assignments = $room->assignments()
             ->whereIn('step', ['Etapa 1', 'Etapa 2'])
-            ->with('person') // Inclui as pessoas nas atribuições
+            ->with('person')
             ->get();
 
-        // Organizando as pessoas por etapa
         $result = [
             'etapa_1' => $assignments->where('step', 'Etapa 1')->pluck('person'),
             'etapa_2' => $assignments->where('step', 'Etapa 2')->pluck('person'),

@@ -21,19 +21,16 @@ class Assignment extends Model
         'step'
     ];
 
-    // Relacionamento com Pessoa
     public function person()
     {
         return $this->belongsTo(Person::class);
     }
 
-    // Relacionamento com Sala
     public function room()
     {
         return $this->belongsTo(Room::class);
     }
 
-    // Relacionamento com EspacoCafe
     public function coffeeSpace()
     {
         return $this->belongsTo(CoffeeSpace::class);

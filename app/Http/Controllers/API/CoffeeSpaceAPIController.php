@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\CoffeeSpaceController;
 use App\Models\CoffeeSpace;
 use Illuminate\Http\Request;
 
-class CoffeeSpaceAPIController extends Controller
+class CoffeeSpaceAPIController
 {
+    public function __construct(
+        private AssignmentController $assignmentController
+    ){
+    }
+
     public function index()
     {
         $coffeeSpaces = CoffeeSpace::all();
@@ -23,7 +29,7 @@ class CoffeeSpaceAPIController extends Controller
 
         $coffeeSpace = CoffeeSpace::create($validatedData);
 
-        return response()->json($coffeeSpace, 201); // 201 Created
+        return response()->json($coffeeSpace, 201);
     }
 
     public function show($id)
@@ -41,6 +47,10 @@ class CoffeeSpaceAPIController extends Controller
             'capacity' => 'sometimes|integer',
         ]);
 
+        if($this->assignmentController->verifyCoffeeCapacityUpdateEachStep($id, $request->capacity)){
+            return to_route('home')->with('error', 'Capacidade não disponivel por conta dos participantes');
+        }
+
         $coffeeSpace->update($validatedData);
 
         return response()->json($coffeeSpace);
@@ -49,23 +59,23 @@ class CoffeeSpaceAPIController extends Controller
     public function destroy($id)
     {
         $coffeeSpace = CoffeeSpace::findOrFail($id);
+
+        $this->assignmentController->unSetPlace($id, 'coffee_space_id');
+
         $coffeeSpace->delete();
 
-        return response()->json(null, 204); // 204 No Content
+        return response()->json(null, 204);
     }
 
     public function getPeopleInCoffeeSpace($id)
     {
-        // Encontrar a sala
         $coffeeSpace = CoffeeSpace::findOrFail($id);
 
-        // Recuperar as pessoas associadas à sala nas duas etapas
         $assignments = $coffeeSpace->assignments()
             ->whereIn('step', ['Etapa 1', 'Etapa 2'])
-            ->with('person') // Inclui as pessoas nas atribuições
+            ->with('person')
             ->get();
 
-        // Organizando as pessoas por etapa
         $result = [
             'etapa_1' => $assignments->where('step', 'Etapa 1')->pluck('person'),
             'etapa_2' => $assignments->where('step', 'Etapa 2')->pluck('person'),
